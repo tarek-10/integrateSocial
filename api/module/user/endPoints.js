@@ -1,0 +1,16 @@
+const UPDATE_USER = "user:UPDATE_USER";
+const GET_ALL_USERS = "user:GET_ALL_USERS";
+const UPDATE_USERS = "user:UPDATE_USER";
+const DELETE_USERS = "user:DELETE_USERS";
+const GET_USER_BY_ID = "user:GET_USER_BY_ID";
+const FOLLOW_USER = "user:FOLLOW_USER";
+const UNFOLLOW_USER = "user:UNFOLLOW_USER";
+module.exports = {
+    UPDATE_USER,
+    GET_ALL_USERS,
+    UPDATE_USERS,
+    DELETE_USERS,
+    GET_USER_BY_ID,
+    FOLLOW_USER,
+    UNFOLLOW_USER
+}

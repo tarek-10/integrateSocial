@@ -1,0 +1,67 @@
+const {
+    StatusCodes
+} = require("http-status-codes");
+const userModel = require("../../../model/user.model");
+const bcrypt = require('bcrypt');
+const updatingUsers = async (req, res) => {
+
+    let {
+        id
+    } = req.params;
+    let {
+        body
+    } = req;
+    try {
+        const user = await userModel.findOne({
+            _id: id
+        });
+        if (user) {
+            let newPassword = user.password;
+            if (body.password) {
+                const salt = await bcrypt.genSalt(10);
+                newPassword = await bcrypt.hash(body.password, salt);
+            }
+            let URLS = user.profilePicture;
+            if (req.files) {
+                URLS = [];
+                for (let i = 0; i < req.files.length; i++) {
+                    URLS.push(process.env.IMAGE_URLS + req.files[i].filename);
+                }
+            }
+            let newUsername = user.username;
+            if (body.username) {
+                newUsername = body.username;
+            }
+            let newdesc = user.desc;
+            if (body.desc) {
+                newdesc = body.desc;
+            }
+
+            const updatedUser = await userModel.findOneAndUpdate({
+                _id: user._id
+            }, {
+                username: newUsername,
+                password: newPassword,
+                profilePicture: URLS,
+                desc: newdesc
+            }, {
+                new: true
+            });
+            res.status(StatusCodes.OK).json({
+                message: "success",
+                updatedUser
+            })
+        } else {
+            res.json({
+                message: "User Not Found...!"
+            })
+        }
+
+    } catch (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            error: "error",
+            error
+        });
+    }
+}
+module.exports = updatingUsers;
