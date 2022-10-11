@@ -1,31 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import postStyle from "./Posts.module.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import img3 from "../image/like2.png";
 import img4 from "../image/heart2.jpg";
 import axios from "axios";
 import { format } from "timeago.js";
-import {Link} from "react-router-dom";
+import { AuthContext } from "../../ContextApi/AuthContext";
+import { Link } from "react-router-dom";
 const Posts = ({ post }) => {
-  console.log("-----",post);
+  console.log("-----", post);
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
-  const [user, setUser] = useState({});
+  const [users, setUsers] = useState({});
+  const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+useEffect(()=>{
+
+  setIsLiked(post.likes.includes(user.data._id))
+},[user.data._id,post.likes])
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`http://localhost:5000/user?userId=${post.userId}`);
-      console.log("====> post user",res.data);
-      setUser(res.data);
+      const res = await axios.get(
+        `http://localhost:5000/user?userId=${post.userId}`
+      );
+      console.log("====> post user", res.data);
+      setUsers(res.data);
     };
     fetchUser();
   }, [post.userId]);
-  const likeHandler = () => {
+    
+  let api = ` http://localhost:5000/`;
+  const AuthAxios = axios.create({
+    baseURL:api,
+    headers:{
+      Authorization: `Bearer ${user.token}`
+    }
+  })
+
+  const likeHandler = async () => {
+       
+   
+    try {
+ 
+    const res = await AuthAxios.put(`http://localhost:5000/like/${post._id}`);
+      console.log(res.data);
+    } catch (error) {
+      console.log("error");
+    }
+
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
-
 
   return (
     <div className={postStyle.post}>
@@ -33,17 +59,14 @@ const Posts = ({ post }) => {
         <div className={postStyle.postTop}>
           <div className={postStyle.postTopLeft}>
             <Link to={`/profile/${user.username}`}>
-            <img
-              className={postStyle.postProfileImg}
-               src={user.profilePicture || `${PF}image/10.JPG`}
-              alt=""
-            />
+              <img
+                className={postStyle.postProfileImg}
+                src={users.profilePicture || `${PF}image/10.JPG`}
+                alt=""
+              />
             </Link>
-            <span className={postStyle.postUsername}>{user.username}</span>
-            <span className={postStyle.postDate}>
-            
-              {format(post.createdAt)}
-            </span>
+            <span className={postStyle.postUsername}>{users.username}</span>
+            <span className={postStyle.postDate}>{format(post.createdAt)}</span>
           </div>
           <div className={postStyle.postTopRight}>
             <MoreVertIcon />

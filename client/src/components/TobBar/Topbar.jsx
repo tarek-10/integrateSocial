@@ -8,19 +8,7 @@ import topbarStyle from "./Topbar.module.css";
 import { AuthContext } from "../../ContextApi/AuthContext";
 import {Link} from "react-router-dom";
 const Topbar = () => {
-  const {user} = useContext(AuthContext);
-  const [userPic , setUserPic] = useState("");
-  const [userData , setUseData] = useState({});
-  useEffect(()=>{
-    const getUser = async()=>{
-      const res = await axios.get(`http://localhost:5000/user/${user.data._id}`);
-      console.log(res.data);
-      setUseData(res.data)
-      setUserPic(res.data.profilePicture[0]);
-    }
-
-    getUser();
-},[])
+ 
   return (
     <div className={topbarStyle.topbarContainer}>
       <div className={topbarStyle.topbarLeft}>

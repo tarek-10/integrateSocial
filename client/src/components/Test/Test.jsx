@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import testStyle from "./Test.module.css";
 import PersonIcon from "@mui/icons-material/Person";
 import ChatIcon from "@mui/icons-material/Chat";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import img1 from "../image/profile1.jpg";
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../ContextApi/AuthContext";
 const Test = () => {
+  const {user} = useContext(AuthContext);
+  const [userPic , setUserPic] = useState("");
+  const [userData , setUseData] = useState({});
+  useEffect(()=>{
+    const getUser = async()=>{
+      const res = await axios.get(`http://localhost:5000/user/${user.data._id}`);
+      console.log(res.data);
+      setUseData(res.data)
+      setUserPic(res.data.profilePicture[0]);
+    }
+
+    getUser();
+},[])
   return (
     <>
       <div className={`fluid-container ${testStyle.topbarContainer}`}>
@@ -76,11 +92,13 @@ const Test = () => {
                   <span className={testStyle.topbarIconBadge}>1</span>
                 </div>
               </div>
+              <Link to={`/profile/${userData.username}`} className={testStyle.tobarImageLink}>
               <img
-                src={img1}
+                src={userPic}
                 className={testStyle.topbarImg}
                 alt="profileImage"
               />
+              </Link>
             </div>
           </div>
         </div>
