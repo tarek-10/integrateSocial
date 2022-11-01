@@ -27,7 +27,7 @@ const creatingPosts = require("../controller/createPosts.controller");
 const upload = require("../../../middleware/multer");
 router.post(
   "/post/create",
-  upload.array("image", 5),
+  upload.array("postImage", 5),
   validationResult(createPost),
   isAuthorized(CREATE_POST),
   creatingPosts

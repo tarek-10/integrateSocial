@@ -9,10 +9,14 @@ import img2 from "../../components/image/p10.jpg";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+// import { AuthContext } from "../../ContextApi/AuthContext";
+// import { useContext } from "react";
 const Profile = () => {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [user, setUser] = useState({});
   const [userCoverPic, setUserCoverPic] = useState([]);
+  // const {user:userToken} = useContext(AuthContext);
+   console.log(user ," ==============================from prof");
   const params = useParams();
   console.log(params.username);
   useEffect(() => {
@@ -23,7 +27,7 @@ const Profile = () => {
       setUserCoverPic(res.data.coverPicture);
     };
     fetchUser();
-  }, []);
+  }, [params.username]);
   return (
     <>
       <Test />

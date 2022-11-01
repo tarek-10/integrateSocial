@@ -15,7 +15,7 @@ const Test = () => {
   const [userData , setUseData] = useState({});
   useEffect(()=>{
     const getUser = async()=>{
-      const res = await axios.get(`http://localhost:5000/user/${user.data._id}`);
+      const res = await axios.get(`http://localhost:5000/user/${user._id}`);
       console.log(res.data);
       setUseData(res.data)
       setUserPic(res.data.profilePicture[0]);

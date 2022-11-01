@@ -65,4 +65,9 @@ module.exports = {
       id: Joi.string().required(),
     }),
   },
+  firendsSchema: {
+    params: Joi.object().required().keys({
+      userId: Joi.string().required(),
+    }),
+  },
 };

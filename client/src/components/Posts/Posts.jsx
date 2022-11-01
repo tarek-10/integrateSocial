@@ -16,8 +16,8 @@ const Posts = ({ post }) => {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 useEffect(()=>{
 
-  setIsLiked(post.likes.includes(user.data._id))
-},[user.data._id,post.likes])
+  setIsLiked(post.likes.includes(user._id))
+},[user._id,post.likes])
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -58,7 +58,7 @@ useEffect(()=>{
       <div className={postStyle.postWrapper}>
         <div className={postStyle.postTop}>
           <div className={postStyle.postTopLeft}>
-            <Link to={`/profile/${user.username}`}>
+            <Link to={`/profile/${users.username}`}>
               <img
                 className={postStyle.postProfileImg}
                 src={users.profilePicture || `${PF}image/10.JPG`}

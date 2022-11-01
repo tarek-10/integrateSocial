@@ -11,6 +11,7 @@ const {
   getUserById,
   followUsers,
   unfollowUser,
+  firendsSchema,
 } = require("../joi/user.validation");
 const upload = require("../../../middleware/multer");
 //register user
@@ -36,6 +37,7 @@ const {
   GET_USER_BY_ID,
   FOLLOW_USER,
   UNFOLLOW_USER,
+  USER_FRIENDS,
 } = require("../endPoints");
 router.post("/user/signin", validationResult(signInUser), signInUsers);
 //end
@@ -65,6 +67,17 @@ router.delete(
 const getUsersById = require("../controller/getUserById.controller");
 router.get("/user/:id", validationResult(getUserById), getUsersById);
 //end
+
+//get friends
+const userFirendsFun = require("../controller/userFriends.controller");
+router.get(
+  "/friends/:userId",
+  validationResult(firendsSchema),
+  isAuthorized(USER_FRIENDS),
+  userFirendsFun
+);
+//end
+
 // get user by query
 const getUsersByQueryFun = require("../controller/getUserByQuery");
 router.get("/user", getUsersByQueryFun);
