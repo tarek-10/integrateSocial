@@ -18,9 +18,9 @@ export const INTIAL_STATE = {
       "http://localhost:5000/uploads/1664746830540-883077718_33.jpg",
     ],
 
-    followers: [""],
+    followers: [],
 
-    following: ["6338d878d7458849df4b7ae3"],
+    following: [],
 
     isAdmin: false,
     isActive: true,

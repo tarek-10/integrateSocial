@@ -4,6 +4,7 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import LabelIcon from "@mui/icons-material/Label";
 import RoomIcon from "@mui/icons-material/Room";
+import CancelIcon from '@mui/icons-material/Cancel';
 import { AuthContext } from "../../ContextApi/AuthContext";
 import img1 from "../image/p3.jpg";
 import axios from "axios";
@@ -81,6 +82,13 @@ const Share = () => {
           />
         </div>
         <hr className={shareStyle.shareHr} />
+
+        {file && (
+          <div className={shareStyle.shareImgContainer}>
+            <img src={URL.createObjectURL(file[0])} className={shareStyle.shareImage} alt="" />
+            <CancelIcon className={shareStyle.shareCancel} onClick={()=>setFile(null)}/>
+          </div>
+        )}
         <form className={shareStyle.shareBottom} onSubmit={submitHandler}>
           <div className={shareStyle.shareOptions}>
             <label htmlFor="file" className={shareStyle.shareOption}>
